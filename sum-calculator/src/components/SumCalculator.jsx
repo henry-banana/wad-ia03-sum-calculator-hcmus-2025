@@ -1,6 +1,6 @@
 // src/components/SumCalculator.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 /**
  * A component that allows users to input two numbers and calculate their sum.
@@ -19,6 +19,17 @@ function SumCalculator() {
   
   // State to hold any validation error messages. Initialized as an empty string.
   const [error, setError] = useState('');
+
+  // Ref để truy cập result area
+  const resultAreaRef = useRef(null);
+
+  // Effect để scroll về đầu khi có kết quả mới
+  useEffect(() => {
+    if (sum !== null && resultAreaRef.current) {
+      resultAreaRef.current.scrollTop = 0;
+      resultAreaRef.current.scrollLeft = 0; // Đảm bảo scroll ngang về đầu
+    }
+  }, [sum]);
 
   // --- EVENT HANDLERS ---
   /**
@@ -47,21 +58,26 @@ function SumCalculator() {
    */
   const parseNumberInput = (inputStr) => {
     // 1. Chuẩn hóa chuỗi: loại bỏ khoảng trắng và thay thế dấu phẩy
+    // Chỉ thay thế dấu phẩy bằng dấu chấm.
     const sanitizedStr = inputStr.trim().replace(',', '.');
+
+    // Nếu sau khi thay thế, chuỗi vẫn còn dấu phẩy (vd: "1,000.5"), đó là lỗi format
+    if (sanitizedStr.includes(',')) {
+        return NaN;
+    }
 
     // 2. Kiểm tra xem có phải là phân số không
     if (sanitizedStr.includes('/')) {
-      const parts = sanitizedStr.split('/');
-      // Nếu có đúng 2 phần (tử và mẫu)
-      if (parts.length === 2) {
-        const numerator = parseFloat(parts[0]);
-        const denominator = parseFloat(parts[1]);
-        
-        // Tránh chia cho 0 và đảm bảo tử/mẫu là số hợp lệ
-        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
-          return numerator / denominator;
+        const parts = sanitizedStr.split('/');
+        if (parts.length === 2) {
+            const numerator = parseFloat(parts[0]);
+            const denominator = parseFloat(parts[1]);
+            
+            if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                return numerator / denominator;
+            }
         }
-      }
+        return NaN; // Format phân số không hợp lệ
     }
     
     // 3. Nếu không phải phân số, dùng logic parseFloat như cũ
@@ -71,36 +87,96 @@ function SumCalculator() {
   /**
  * Handles the click event of the "Calculate Sum" button.
  * It validates the inputs before performing the calculation.
- * It now also handles commas as decimal separators.
+ * It now also handles commas as decimal separators and uses BigInt for large integers.
  */
-const handleCalculateSum = () => {
-    // Reset previous results and errors
+  const handleCalculateSum = () => {
     setSum(null);
     setError('');
 
-    // 1. Check if either input is empty
-    if (number1.trim() === '' || number2.trim() === '') {
+    const input1 = number1.trim();
+    const input2 = number2.trim();
+
+    if (input1 === '' || input2 === '') {
         setError('Please enter both numbers.');
         return;
     }
 
-    // Replace comma with a period to handle European decimal format
-    const sanitizedNumber1 = number1.replace(',', '.');
-    const sanitizedNumber2 = number2.replace(',', '.');
+    // Biểu thức chính quy để kiểm tra một chuỗi có phải là số nguyên (có thể có dấu phẩy)
+    const bigIntRegex = /^-?\d{1,3}(,\d{3})*$|^-?\d+$/;
 
-    // 2. Convert sanitized input strings to numbers
-    const num1 = parseNumberInput(sanitizedNumber1);
-    const num2 = parseNumberInput(sanitizedNumber2);
+    try {
+        // Ưu tiên xử lý BigInt nếu cả hai input đều là số nguyên lớn
+        if (bigIntRegex.test(input1.replace(/,/g, '')) && bigIntRegex.test(input2.replace(/,/g, ''))) {
+            // Xóa dấu phẩy để BigInt có thể hiểu
+            const bigNum1 = BigInt(input1.replace(/,/g, ''));
+            const bigNum2 = BigInt(input2.replace(/,/g, ''));
+            const result = bigNum1 + bigNum2;
+            setSum(result.toString());
+        } 
+        // Nếu không, xử lý như số thập phân/phân số thông thường
+        else {
+            const num1 = parseNumberInput(input1); // parseNumberInput đã xử lý dấu phẩy đúng cách
+            const num2 = parseNumberInput(input2);
 
-    // 3. Check if the converted values are valid numbers
-    if (isNaN(num1) || isNaN(num2)) {
+            if (isNaN(num1) || isNaN(num2)) {
+                // Đặt thông báo lỗi khớp với bài test
+                setError('Please enter valid numbers. Characters and symbols are not allowed.');
+                return;
+            }
+            setSum(num1 + num2);
+        }
+    } catch (e) {
+        // Trường hợp lỗi cú pháp nặng (ví dụ: '1,2,3'), trả về lỗi khớp với test
         setError('Please enter valid numbers. Characters and symbols are not allowed.');
-        return;
     }
+  };
 
-    // If validation passes, calculate the sum and update the state
-    setSum(num1 + num2);
-};
+  // --- HÀM ĐỊNH DẠNG SỐ VỚI DẤU PHẨY ---
+  const formatNumber = (num) => {
+    if (num === null || num === undefined) return '--';
+    
+    // Nếu num là string (từ BigInt), xử lý trực tiếp
+    let numStr = typeof num === 'string' ? num : num.toString();
+    
+    // Xử lý ký pháp khoa học (e+/e-)
+    if (numStr.includes('e')) {
+      return numStr;
+    }
+    
+    // Xử lý số âm
+    const isNegative = numStr.startsWith('-');
+    if (isNegative) {
+      numStr = numStr.substring(1);
+    }
+    
+    // Tách phần nguyên và phần thập phân
+    const parts = numStr.split('.');
+    const integerPart = parts[0];
+    const decimalPart = parts[1];
+    
+    // Thêm dấu phẩy vào phần nguyên
+    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    // Kết hợp lại
+    let result = decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+    
+    return isNegative ? `-${result}` : result;
+  };
+
+  // --- LOGIC CHỌN CLASSNAME CHO KẾT QUẢ ---
+  let resultClassName = '';
+  if (sum !== null) {
+    // Tính độ dài thực của số (không tính dấu phẩy format)
+    const sumStr = typeof sum === 'string' ? sum : sum.toString();
+    const actualLength = sumStr.replace(/,/g, '').length;
+    
+    if (actualLength > 20) {
+      resultClassName = 'result-xlarge'; // Rất dài (>20 ký tự)
+    } else if (actualLength > 12) {
+      resultClassName = 'result-large'; // Hơi dài (>12 ký tự)
+    }
+  }
+  // ---------------------------------------------
 
   // --- RENDER ---
   return (
@@ -136,10 +212,12 @@ const handleCalculateSum = () => {
       
       <button onClick={handleCalculateSum}>Calculate Sum</button>
       
-      <div className="result-area">
+      <div className="result-area" ref={resultAreaRef}>
         {/* Conditionally render the result only if 'sum' is not null */}
         {sum !== null ? (
-          <h2>Result: {sum}</h2>
+          <h2 className={resultClassName}>
+            Result: {formatNumber(sum)}
+          </h2>
         ) : (
           <h2>Result: --</h2>
         )}

@@ -1,15 +1,18 @@
 /* --- Biến màu - Tinh chỉnh cho chủ đề không gian --- */
 :root {
-  --space-deep: #0d0f1a;      /* Màu nền không gian sâu thẳm */
+  --space-deep: #0a0e27;      /* Màu nền không gian sâu thẳm */
   --space-light: #1a1b26;     /* Màu sáng hơn một chút */
-  --calculator-bg: rgba(36, 40, 59, 0.5); /* Nền kính mờ */
-  --text-color: #c0caf5;      
-  --primary-accent: #7aa2f7;  
-  --secondary-accent: #bb9af7;
-  --success-color: #9ece6a;   
-  --error-color: #f7768e;     
-  --border-color: rgba(192, 202, 245, 0.2); /* Viền kính mờ */
-  --shadow-color: rgba(0, 0, 0, 0.5);
+  --calculator-bg: rgba(18, 22, 38, 0.4); /* Nền kính mờ */
+  --text-color: #e0e7ff;      
+  --primary-accent: #60a5fa;  /* Blue */
+  --secondary-accent: #c084fc; /* Purple */
+  --tertiary-accent: #38bdf8;  /* Cyan */
+  --success-color: #ffffff;   
+  --error-color: #f87171;     
+  --border-color: rgba(192, 202, 245, 0.15); /* Viền kính mờ */
+  --shadow-color: rgba(0, 0, 0, 0.6);
+  --glow-primary: rgba(96, 165, 250, 0.5);
+  --glow-secondary: rgba(192, 132, 252, 0.5);
 }
 
 /* --- Thiết lập cơ bản --- */
@@ -28,7 +31,17 @@ body {
   height: 100vh;
   top: 0;
   left: 0;
-  background: radial-gradient(ellipse at bottom, var(--space-light) 0%, var(--space-deep) 100%);
+  background: 
+    radial-gradient(ellipse at 20% 80%, rgba(96, 165, 250, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(192, 132, 252, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, var(--space-light) 0%, var(--space-deep) 100%);
+  animation: galaxyPulse 15s ease-in-out infinite alternate;
+}
+
+@keyframes galaxyPulse {
+  0% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.1) saturate(1.2); }
+  100% { filter: brightness(1) saturate(1); }
 }
 
 /* Tạo các chấm sao bằng box-shadow */
@@ -51,24 +64,34 @@ body {
     779px 1931px #FFF, 324px 1953px #FFF, 1959px 1313px #FFF, 1851px 1935px #FFF, 
     1488px 1477px #FFF, 1096px 1722px #FFF, 336px 296px #FFF, 1739px 1738px #FFF,
     1801px 1723px #FFF, 1940px 1753px #FFF, 675px 1629px #FFF, 1605px 1084px #FFF,
-    1205px 1931px #FFF, 1379px 1613px #FFF, 1988px 1151px #FFF, 800px 1076px #FFF;
+    1205px 1931px #FFF, 1379px 1613px #FFF, 1988px 1151px #FFF, 800px 1076px #FFF,
+    450px 850px #FFF, 1650px 450px #FFF, 280px 1580px #FFF, 1820px 820px #FFF;
   animation-duration: 150s;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
 }
 .stars-layer2 {
   box-shadow: 
     1192px 1737px #FFF, 1965px 571px #FFF, 1405px 1276px #FFF, 1721px 1656px #FFF,
     1373px 398px #FFF, 1163px 1889px #FFF, 1634px 1939px #FFF, 1905px 1728px #FFF,
     412px 1261px #FFF, 907px 477px #FFF, 1527px 1857px #FFF, 1310px 1536px #FFF,
-    291px 1476px #FFF, 1625px 1890px #FFF, 1883px 1140px #FFF, 1695px 1725px #FFF;
+    291px 1476px #FFF, 1625px 1890px #FFF, 1883px 1140px #FFF, 1695px 1725px #FFF,
+    620px 1120px #FFF, 1420px 620px #FFF, 920px 1820px #FFF, 220px 920px #FFF;
   animation-duration: 100s;
+  width: 2px;
+  height: 2px;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7));
 }
 .stars-layer3 {
   box-shadow: 
     1456px 1578px #FFF, 213px 1808px #FFF, 1711px 1629px #FFF, 640px 1867px #FFF,
     1868px 1559px #FFF, 1370px 1707px #FFF, 1926px 663px #FFF, 1375px 1875px #FFF,
     1466px 1630px #FFF, 1217px 1926px #FFF, 1803px 1544px #FFF, 609px 1324px #FFF,
-    1252px 1877px #FFF, 1807px 1528px #FFF, 1596px 1229px #FFF, 1936px 1516px #FFF;
+    1252px 1877px #FFF, 1807px 1528px #FFF, 1596px 1229px #FFF, 1936px 1516px #FFF,
+    756px 1256px #FFF, 1556px 756px #FFF, 456px 1656px #FFF, 1156px 456px #FFF;
   animation-duration: 50s;
+  width: 3px;
+  height: 3px;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
 }
 
 @keyframes moveStars {
@@ -91,169 +114,425 @@ body {
 /* --- Khung Calculator - Phong cách KÍNH MỜ (Glassmorphism) --- */
 .calculator-container {
   background: var(--calculator-bg);
-  padding: 2.5rem;
-  border-radius: 20px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 10px 30px var(--shadow-color);
+  padding: 3rem;
+  border-radius: 24px;
+  border: 2px solid var(--border-color);
+  box-shadow: 
+    0 20px 60px var(--shadow-color),
+    0 0 80px rgba(96, 165, 250, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   width: 100%;
-  max-width: 420px;
+  max-width: 450px;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(12px); /* Hiệu ứng kính mờ chính */
-  -webkit-backdrop-filter: blur(12px); /* Hỗ trợ Safari */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  animation: containerFloat 6s ease-in-out infinite;
+}
+
+@keyframes containerFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* --- Thêm viền phát sáng xung quanh --- */
+.calculator-container::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    var(--primary-accent),
+    var(--secondary-accent),
+    var(--tertiary-accent),
+    var(--primary-accent)
+  );
+  border-radius: 24px;
+  z-index: -1;
+  opacity: 0;
+  filter: blur(20px);
+  animation: borderGlow 4s ease-in-out infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes borderGlow {
+  0%, 100% { 
+    opacity: 0.3;
+    background-position: 0% 50%;
+  }
+  50% { 
+    opacity: 0.6;
+    background-position: 100% 50%;
+  }
 }
 
 /* --- HIỆU ỨNG GALAXY / TINH VÂN --- */
 .calculator-container::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
   z-index: 0;
-  /* Tạo các vệt sáng mờ như tinh vân */
   background: 
-    radial-gradient(circle at 20% 30%, var(--primary-accent), transparent 40%),
-    radial-gradient(circle at 80% 70%, var(--secondary-accent), transparent 40%);
-  opacity: 0.15;
-  filter: blur(50px); /* Làm mờ các vệt sáng */
-  animation: swirlGalaxy 20s ease-in-out infinite alternate;
+    radial-gradient(circle at 30% 40%, var(--glow-primary), transparent 50%),
+    radial-gradient(circle at 70% 60%, var(--glow-secondary), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.3), transparent 60%);
+  opacity: 0.2;
+  filter: blur(60px);
+  animation: swirlGalaxy 25s ease-in-out infinite alternate;
 }
 
 .calculator-container > * {
   position: relative;
-  z-index: 1; /* Đảm bảo nội dung nổi lên trên hiệu ứng */
+  z-index: 1;
 }
 
 @keyframes swirlGalaxy {
-  from {
-    transform: rotate(0deg) scale(1.2);
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.2;
   }
-  to {
-    transform: rotate(90deg) scale(1.0);
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.2;
   }
 }
 
 /* --- Các thành phần bên trong (Tiêu đề, Input, Nút bấm...) --- */
 .calculator-container h1 {
   margin-top: 0;
-  margin-bottom: 2rem;
-  font-size: 2.2rem;
-  font-weight: 700;
+  margin-bottom: 2.5rem;
+  font-size: 2.5rem;
+  font-weight: 800;
   text-align: center;
-  background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+  background: linear-gradient(
+    135deg,
+    var(--primary-accent) 0%,
+    var(--tertiary-accent) 50%,
+    var(--secondary-accent) 100%
+  );
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 5s ease infinite;
+  filter: drop-shadow(0 0 20px var(--glow-primary));
+  letter-spacing: 1px;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 /* --- Nhóm Input (Label + Input) --- */
 .input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
   text-align: left;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  margin-bottom: 0.7rem;
+  font-weight: 600;
+  font-size: 0.95rem;
   color: var(--text-color);
-  opacity: 0.8;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px var(--glow-primary);
 }
 
 .input-group input {
   width: 100%;
-  padding: 1rem;
-  font-size: 1rem;
+  padding: 1.2rem 1.5rem;
+  font-size: 1.1rem;
   color: var(--text-color);
-  background-color: rgba(13, 15, 26, 0.5);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(13, 15, 26, 0.6) 0%,
+    rgba(26, 27, 38, 0.4) 100%
+  );
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Hiệu ứng khi focus vào input */
 .input-group input:focus {
   outline: none;
   border-color: var(--primary-accent);
-  box-shadow: 0 0 0 3px rgba(122, 162, 247, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(13, 15, 26, 0.7) 0%,
+    rgba(26, 27, 38, 0.5) 100%
+  );
+  box-shadow: 
+    0 0 0 3px var(--glow-primary),
+    0 0 20px var(--glow-primary),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 8px 25px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.input-group input::placeholder {
+  color: rgba(224, 231, 255, 0.4);
+  font-style: italic;
 }
 
 /* --- Nút bấm "Calculate" --- */
 button {
   width: 100%;
-  padding: 1rem;
+  padding: 1.3rem 2rem;
   border: none;
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   cursor: pointer;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+  background: linear-gradient(
+    135deg,
+    var(--primary-accent) 0%,
+    var(--secondary-accent) 100%
+  );
   background-size: 200% 100%;
-  transition: background-position 0.5s ease, transform 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 
+    0 8px 25px rgba(96, 165, 250, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hiệu ứng ripple khi click */
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 button:hover {
   background-position: 100% 0;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(122, 162, 247, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 12px 35px rgba(96, 165, 250, 0.6),
+    0 0 40px var(--glow-primary),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 button:active {
-  transform: translateY(0);
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 
+    0 5px 15px rgba(96, 165, 250, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* --- Khu vực hiển thị kết quả --- */
 .result-area {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border-color);
-  min-height: 60px;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 2px solid;
+  border-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-accent),
+    var(--secondary-accent),
+    transparent
+  ) 1;
+  min-height: 80px;
+  max-height: 200px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* THAY ĐỔI QUAN TRỌNG NHẤT */
+  background: linear-gradient(
+    135deg,
+    rgba(96, 165, 250, 0.05) 0%,
+    rgba(192, 132, 252, 0.05) 100%
+  );
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+/* Custom scrollbar cho result-area */
+.result-area::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* Thêm chiều cao cho scrollbar ngang */
+}
+
+.result-area::-webkit-scrollbar-track {
+  background: rgba(96, 165, 250, 0.1);
+  border-radius: 10px;
+}
+
+.result-area::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    var(--primary-accent),
+    var(--secondary-accent)
+  );
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--glow-primary);
+}
+
+.result-area::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    135deg,
+    var(--secondary-accent),
+    var(--primary-accent)
+  );
 }
 
 .result-area h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 800;
   margin: 0;
-  color: var(--success-color);
-  animation: fadeIn 0.5s ease-in-out;
+  padding: 0;
+  background: linear-gradient(
+    135deg,
+    var(--success-color) 0%,
+    var(--tertiary-accent) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: var(--success-color); /* Fallback cho trình duyệt không hỗ trợ gradient */
+  animation: fadeIn 0.6s ease-in-out, resultPulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px var(--success-color));
+  word-wrap: break-word; /* Ngắt dòng khi cần */
+  overflow-wrap: break-word; /* Đảm bảo số dài được ngắt dòng */
+  word-break: break-word; /* Ngắt từ khi quá dài */
+  transition: font-size 0.2s ease-in-out; /* Hiệu ứng chuyển đổi mượt mà */
+  max-width: 100%; /* Đảm bảo không tràn ra ngoài */
+  width: 100%; /* Chiếm full width */
+  line-height: 1.4; /* Tăng khoảng cách dòng cho dễ đọc */
+  text-align: center; /* Căn giữa text */
+}
+
+/* Class cho số có độ dài trung bình */
+.result-large {
+  font-size: 2rem !important;
+}
+
+/* Class cho số rất dài */
+.result-xlarge {
+  font-size: 1.5rem !important;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px) scale(0.9);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes resultPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px var(--success-color));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px var(--success-color)) drop-shadow(0 0 40px var(--tertiary-accent));
   }
 }
 
 /* --- Thông báo lỗi --- */
 .error-message {
   color: #fff;
-  background-color: rgba(247, 118, 142, 0.2);
-  border: 1px solid var(--error-color);
-  border-radius: 8px;
-  padding: 0.8rem;
+  background: linear-gradient(
+    135deg,
+    rgba(248, 113, 113, 0.25) 0%,
+    rgba(239, 68, 68, 0.15) 100%
+  );
+  border: 1.5px solid var(--error-color);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
   margin-top: 0;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
-  animation: shake 0.5s;
+  font-weight: 600;
+  font-size: 0.95rem;
+  animation: shake 0.5s, errorGlow 2s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 20px rgba(248, 113, 113, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hiệu ứng chớp sáng cho lỗi */
+.error-message::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: errorShine 2s ease-in-out infinite;
+}
+
+@keyframes errorShine {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+@keyframes errorGlow {
+  0%, 100% {
+    box-shadow: 
+      0 4px 20px rgba(248, 113, 113, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 4px 25px rgba(248, 113, 113, 0.5),
+      0 0 30px rgba(248, 113, 113, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
 }
 
 /* Hiệu ứng rung lắc cho thông báo lỗi */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
 }
