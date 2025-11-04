@@ -1,4 +1,6 @@
-# Sum Calculator - React App
+# Sum Calculator - React App - WAD_IA03
+
+# 23120262 - Tống Dương Thái Hòa
 
 ## 🚀 Demo Trực Tiếp
 
