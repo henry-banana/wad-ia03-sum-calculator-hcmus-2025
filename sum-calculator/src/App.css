@@ -60,34 +60,16 @@ body {
 
 /* Các lớp sao với kích thước và tốc độ khác nhau để tạo chiều sâu */
 .stars-layer1 {
-  box-shadow: 
-    779px 1931px #FFF, 324px 1953px #FFF, 1959px 1313px #FFF, 1851px 1935px #FFF, 
-    1488px 1477px #FFF, 1096px 1722px #FFF, 336px 296px #FFF, 1739px 1738px #FFF,
-    1801px 1723px #FFF, 1940px 1753px #FFF, 675px 1629px #FFF, 1605px 1084px #FFF,
-    1205px 1931px #FFF, 1379px 1613px #FFF, 1988px 1151px #FFF, 800px 1076px #FFF,
-    450px 850px #FFF, 1650px 450px #FFF, 280px 1580px #FFF, 1820px 820px #FFF;
   animation-duration: 150s;
   filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
 }
 .stars-layer2 {
-  box-shadow: 
-    1192px 1737px #FFF, 1965px 571px #FFF, 1405px 1276px #FFF, 1721px 1656px #FFF,
-    1373px 398px #FFF, 1163px 1889px #FFF, 1634px 1939px #FFF, 1905px 1728px #FFF,
-    412px 1261px #FFF, 907px 477px #FFF, 1527px 1857px #FFF, 1310px 1536px #FFF,
-    291px 1476px #FFF, 1625px 1890px #FFF, 1883px 1140px #FFF, 1695px 1725px #FFF,
-    620px 1120px #FFF, 1420px 620px #FFF, 920px 1820px #FFF, 220px 920px #FFF;
   animation-duration: 100s;
   width: 2px;
   height: 2px;
   filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7));
 }
 .stars-layer3 {
-  box-shadow: 
-    1456px 1578px #FFF, 213px 1808px #FFF, 1711px 1629px #FFF, 640px 1867px #FFF,
-    1868px 1559px #FFF, 1370px 1707px #FFF, 1926px 663px #FFF, 1375px 1875px #FFF,
-    1466px 1630px #FFF, 1217px 1926px #FFF, 1803px 1544px #FFF, 609px 1324px #FFF,
-    1252px 1877px #FFF, 1807px 1528px #FFF, 1596px 1229px #FFF, 1936px 1516px #FFF,
-    756px 1256px #FFF, 1556px 756px #FFF, 456px 1656px #FFF, 1156px 456px #FFF;
   animation-duration: 50s;
   width: 3px;
   height: 3px;
