@@ -1,12 +1,16 @@
-// src/App.jsx
-
 import SumCalculator from './components/SumCalculator';
-import './App.css'; // Import the CSS file for styling
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <SumCalculator />
+    <div className="starfield">
+      <div className="stars-layer1"></div>
+      <div className="stars-layer2"></div>
+      <div className="stars-layer3"></div>
+      
+      <div className="App">
+        <SumCalculator />
+      </div>
     </div>
   );
 }

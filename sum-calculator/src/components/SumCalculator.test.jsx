@@ -87,4 +87,20 @@ describe('SumCalculator Component', () => {
     expect(screen.getByRole('heading', { name: /result: 6/i })).toBeInTheDocument();
   });
 
+  // Test 6 (Nâng cao): Kiểm tra tính toán đúng với dấu chia
+  it('should correctly calculate sum when inputs use a slash as decimal separator', () => {
+    render(<SumCalculator />);
+    
+    const number1Input = screen.getByLabelText(/number 1/i);
+    const number2Input = screen.getByLabelText(/number 2/i);
+    const calculateButton = screen.getByRole('button', { name: /calculate sum/i });
+
+    fireEvent.change(number1Input, { target: { value: '2/5' } });
+    fireEvent.change(number2Input, { target: { value: '3/5' } });
+    fireEvent.click(calculateButton);
+
+    // 2/5 + 3/5 = 1
+    expect(screen.getByRole('heading', { name: /result: 1/i })).toBeInTheDocument();
+  });
+
 });

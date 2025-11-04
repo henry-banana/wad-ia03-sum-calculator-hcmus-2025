@@ -39,6 +39,35 @@ function SumCalculator() {
     setNumber2(e.target.value);
   };
   
+   /**
+   * Parses a string input into a number.
+   * Handles integers, decimals (with '.' or ','), and fractions (like 'a/b').
+   * @param {string} inputStr The string to parse.
+   * @returns {number} The parsed number, or NaN if invalid.
+   */
+  const parseNumberInput = (inputStr) => {
+    // 1. Chuẩn hóa chuỗi: loại bỏ khoảng trắng và thay thế dấu phẩy
+    const sanitizedStr = inputStr.trim().replace(',', '.');
+
+    // 2. Kiểm tra xem có phải là phân số không
+    if (sanitizedStr.includes('/')) {
+      const parts = sanitizedStr.split('/');
+      // Nếu có đúng 2 phần (tử và mẫu)
+      if (parts.length === 2) {
+        const numerator = parseFloat(parts[0]);
+        const denominator = parseFloat(parts[1]);
+        
+        // Tránh chia cho 0 và đảm bảo tử/mẫu là số hợp lệ
+        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+          return numerator / denominator;
+        }
+      }
+    }
+    
+    // 3. Nếu không phải phân số, dùng logic parseFloat như cũ
+    return parseFloat(sanitizedStr);
+  };
+
   /**
  * Handles the click event of the "Calculate Sum" button.
  * It validates the inputs before performing the calculation.
@@ -60,8 +89,8 @@ const handleCalculateSum = () => {
     const sanitizedNumber2 = number2.replace(',', '.');
 
     // 2. Convert sanitized input strings to numbers
-    const num1 = parseFloat(sanitizedNumber1);
-    const num2 = parseFloat(sanitizedNumber2);
+    const num1 = parseNumberInput(sanitizedNumber1);
+    const num2 = parseNumberInput(sanitizedNumber2);
 
     // 3. Check if the converted values are valid numbers
     if (isNaN(num1) || isNaN(num2)) {
